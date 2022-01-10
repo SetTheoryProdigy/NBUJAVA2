@@ -180,15 +180,14 @@ public class Delivery implements Comparable<Delivery>, Serializable {
     public static Comparator<Delivery> DeliveryDestination =
             new Comparator<Delivery>() {
                 @Override
-                public int compare(Delivery driver1, Delivery driver2) {
-                    return Delivery.DeliveryDestination.compare(driver1, driver2);
+                public int compare(Delivery delivery1, Delivery delivery2) {
+                    return delivery1.compareTo(delivery2);
                 }
             };
 
-
-    public static void sortDeliveriesByDeliveryDestination(List<Delivery> drivers) {
+    public static void sortDeliveriesByDeliveryDestination(List<Delivery> deliveries) {
         Collections
-                .sort(drivers,
+                .sort(deliveries,
                         Delivery.DeliveryDestination);
     }
 

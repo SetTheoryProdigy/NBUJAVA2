@@ -22,7 +22,7 @@ public class DriverInterface {
         int choice = 1;
         int oldChoice = 1;
         int id;
-        while (choice >= 1 && choice <= 5) {
+        loopOut:while (choice >= 1 && choice <= 5) {
             System.out.println("Drivers Menu for company " + getTransportCompany().getName());
             System.out.println("Please choose one of the options:");
             System.out.println(" --- 1 --- Choose a Driver");
@@ -76,6 +76,7 @@ public class DriverInterface {
                         }
                     }
                     choice = oldChoice;
+                    break;
                 case 2: // Create
                     oldChoice = choice;
                     System.out.println("Enter driver name:");
@@ -115,12 +116,14 @@ public class DriverInterface {
                                 updateDriver.setQualification(newQualification);
                                 DriverDAO.saveOrUpdateDriver(updateDriver);
                                 System.out.println("Update successful for qualification!");
+                                break;
                             case 2:
                                 System.out.println("Enter new driver salary:");
                                 double newSalary = sc.nextDouble();
                                 updateDriver.setSalary(newSalary);
                                 DriverDAO.saveOrUpdateDriver(updateDriver);
                                 System.out.println("Update successful!");
+                                break;
                             case 5:
                                 break loop;
                         }
@@ -145,8 +148,9 @@ public class DriverInterface {
 
                     System.out.println("Deletion Successful");
                     choice = oldChoice;
-                case 5: // Back
                     break;
+                case 5: // Back
+                    break loopOut;
             }
         }
     }

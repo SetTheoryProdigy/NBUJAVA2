@@ -69,6 +69,11 @@ public class TransportCompanyInterface {
 
                                 double revenue = 0;
                                 List<Delivery> deliveries = DeliveryDAO.readDeliveriesByStartDateAndEndDate(startDate, endDate);
+                                if (deliveries.isEmpty()){
+                                    System.out.println("Transport Company does not have deliveries for given period [" +
+                                            startDate + "-" + endDate + "]!");
+                                    break;
+                                }
                                 for (Delivery delivery : deliveries) {
                                     revenue += delivery.getDlvPrice();
                                 }
@@ -111,7 +116,7 @@ public class TransportCompanyInterface {
                     switch (choice) {
                         case 1:
                             System.out.println("Enter new transport company name:");
-                            String newName = sc.nextLine();
+                            String newName = sc.next();
                             updateTransportCompany.setName(newName);
                             TransportCompanyDAO.saveOrUpdateTransportCompany(updateTransportCompany);
                             System.out.println("Update successful!");

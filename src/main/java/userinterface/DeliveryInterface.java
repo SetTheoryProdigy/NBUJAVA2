@@ -98,7 +98,7 @@ public class DeliveryInterface {
                 case 4:
                     oldChoice = choice;
                     List<Delivery> deliveriesAll = DeliveryDAO.readDeliveriesByTransportCompanyId(transportCompany.getId());
-                    deliveriesAll.sort(Delivery.DeliveryDestination);
+                    Delivery.sortDeliveriesByDeliveryDestination(deliveriesAll);
                     deliveriesAll.stream().forEach(System.out::println);
                     choice = oldChoice;
                     break;

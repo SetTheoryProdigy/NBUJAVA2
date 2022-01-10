@@ -65,7 +65,7 @@ public class CustomerInterface {
                                     if (assignCustomerCompany == null) {
                                         System.out.println("Invalid Transport Company ID, please choose again!");
                                     } else {
-                                        Customer assignCompanyCustomer = useCustomer;
+                                        Customer assignCompanyCustomer = new Customer(useCustomer);
                                         Set<TransportCompany> assignTransportCompany = new HashSet<TransportCompany>();
                                         assignTransportCompany.add(assignCustomerCompany);
                                         assignCompanyCustomer.setTransportCompany(assignTransportCompany);
@@ -86,12 +86,17 @@ public class CustomerInterface {
                                         break;
                                     }
                                     unpaidDeliveriesShow.stream().forEach(System.out::println);
+                                    System.out.println("Enter Delivery (ID) to pay");
+                                    int deliveryId = sc.nextInt();
+                                    deliveryToPay = DeliveryDAO.getDelivery(deliveryId);
                                     if (deliveryToPay != null) {
-                                        System.out.println("Enter Delivery (ID) to pay");
-                                        int deliveryId = sc.nextInt();
-                                        deliveryToPay = DeliveryDAO.getDelivery(deliveryId);
                                         deliveryToPay.setUnpaidFlag(0);
                                         DeliveryDAO.saveOrUpdateDelivery(deliveryToPay);
+
+
+                                        Driver paidDriver = DriverDAO.getDriver(deliveryToPay.getDriver().getId());
+                                        paidDriver.setNumDlv(paidDriver.getNumDlv() + 1);
+                                        DriverDAO.saveOrUpdateDriver(paidDriver);
                                     }
                                 }
                                 break;
@@ -109,11 +114,15 @@ public class CustomerInterface {
 
                     Set<TransportCompany> newTransportCompanyCustomer = new HashSet<TransportCompany>();
                     long companyId = 0;
-                    while (!newTransportCompanyCustomer.isEmpty()) {
+                    while (newTransportCompanyCustomer.isEmpty()) {
                         while (companyId >= 0) {
                             useTransportCompany.stream().forEach(System.out::println);
                             System.out.println("Enter company ID (Enter negative number to stop the entering of companies)");
                             int compId = sc.nextInt();
+
+                            if (compId < 0){
+                                break;
+                            }
 
                             if (useTransportCompany.stream().filter(a -> a.getId() == compId).findAny() == null) {
                                 System.out.println("Invalid ID, please choose again!");

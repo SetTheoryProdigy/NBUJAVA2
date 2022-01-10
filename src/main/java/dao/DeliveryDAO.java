@@ -114,8 +114,11 @@ public class DeliveryDAO {
             CriteriaQuery<Delivery> criteriaQuery = criteriaBuilder.createQuery(Delivery.class);
             Root<Delivery> root = criteriaQuery.from(Delivery.class);
 
-            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("customer"), id));
-            criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("unpaidFlag"), 0));
+            List<Predicate> predicates = new ArrayList<Predicate>();
+            predicates.add(criteriaBuilder.equal(root.get("customer"), id));
+            predicates.add(criteriaBuilder.equal(root.get("unpaidFlag"), 1));
+
+            criteriaQuery.select(root).where(predicates.toArray(new Predicate[]{}));
 
             Query query = session.createQuery(criteriaQuery);
             List<Delivery> deliveries = query.getResultList();
