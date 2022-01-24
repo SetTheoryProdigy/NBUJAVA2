@@ -97,6 +97,10 @@ public class CustomerInterface {
                                         Driver paidDriver = DriverDAO.getDriver(deliveryToPay.getDriver().getId());
                                         paidDriver.setNumDlv(paidDriver.getNumDlv() + 1);
                                         DriverDAO.saveOrUpdateDriver(paidDriver);
+
+                                        TransportCompany paidTransportCompany = deliveryToPay.getTransportCompany();
+                                        paidTransportCompany.setIncome(deliveryToPay.getDlvPrice());
+                                        TransportCompanyDAO.saveOrUpdateTransportCompany(paidTransportCompany);
                                     }
                                 }
                                 break;
